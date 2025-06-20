@@ -92,3 +92,15 @@ window.addEventListener("load", () => {
         preloader.remove();
     }, 500);
 });
+async function fetchNews(query) {
+  try {
+    const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
+    const data = await res.json();
+    if (!data.articles) throw new Error("No articles received");
+    bindData(data.articles);
+  } catch (error) {
+    console.error("Error fetching news:", error);
+    document.getElementById("cards-container").innerHTML =
+      "<h3 style='color:red;'>Failed to fetch news. Please try again later.</h3>";
+  }
+}
